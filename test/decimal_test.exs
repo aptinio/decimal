@@ -634,6 +634,14 @@ defmodule DecimalTest do
     end)
   end
 
+  test "round/2" do
+    assert Decimal.round(~d"1.025", 2) == d(1, 103, -2)
+
+    Context.with(%Context{rounding: :half_down}, fn ->
+      assert Decimal.round(~d"1.025", 2) == d(1, 102, -2)
+    end)
+  end
+
   test "round/3: special" do
     assert Decimal.round(~d"inf", 2, :down) == d(1, :inf, 0)
     assert Decimal.round(~d"nan", 2, :down) == d(1, :NaN, 0)
